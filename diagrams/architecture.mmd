@@ -1,0 +1,10 @@
+flowchart TB
+  Internet((Internet)) --> ALB[Application Load Balancer<br/>public subnets A/B]
+  ALB -->|TCP 8000; SG reference| A[EC2 app A<br/>private subnet]
+  ALB -->|TCP 8000; SG reference| B[EC2 app B<br/>private subnet]
+  A & B -->|IAM role; no access keys| AWS[AWS managed services]
+  API[AWS API activity] --> CT[CloudTrail] --> S3[(Encrypted private S3)]
+  CT --> CW[CloudWatch Logs]
+  GD[GuardDuty] --> Findings[Security findings]
+  GitHub[GitHub Actions] -->|OIDC temporary credentials| Role[AWS IAM role]
+

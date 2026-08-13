@@ -1,0 +1,11 @@
+Dockerfile
+.dockerignore
+tests/
+requirements-dev.txt
+__pycache__/
+.pytest_cache/
+.coverage
+.env*
+*.pem
+*.key
+.git/

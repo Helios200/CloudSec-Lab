@@ -1,0 +1,26 @@
+name: Container security
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: app
+          load: true
+          push: false
+          tags: cloudsec-lab:test
+      - uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: cloudsec-lab:test
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: 1
+

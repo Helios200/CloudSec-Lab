@@ -1,0 +1,11 @@
+flowchart LR
+  Dev[Developer] --> PR[Pull request]
+  PR --> FMT[Terraform fmt + validate]
+  PR --> IaC[Checkov + Trivy IaC]
+  PR --> Secrets[Gitleaks]
+  PR --> App[Pytest + Bandit + pip-audit]
+  PR --> Image[Docker build + Trivy]
+  FMT & IaC & Secrets & App & Image --> Gate{Checks pass?}
+  Gate -->|yes| Review[Human review]
+  Gate -->|no| Fix[Remediate]
+
